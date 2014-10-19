@@ -14,39 +14,39 @@ import java.util.List;
  */
 public class AVService {
   public static void AVInit(Context ctx) {
-    // ³õÊ¼»¯Ó¦ÓÃ Id ºÍ Ó¦ÓÃ Key£¬Äú¿ÉÒÔÔÚÓ¦ÓÃÉèÖÃ²Ëµ¥ÀïÕÒµ½ÕâĞ©ĞÅÏ¢
-    AVOSCloud.initialize(ctx, "8gkau2x0fwj85akuvv11no1dctxw8ljbxtz1kmyxi0mexxj8",
-        "mjw0u3ddmq05b3txvpix4jfaumjlqew13hu3vrauy05sj3r4");
-    // ÆôÓÃ±ÀÀ£´íÎó±¨¸æ
+    // åˆå§‹åŒ–åº”ç”¨ Id å’Œ åº”ç”¨ Key
+    AVOSCloud.initialize(ctx, "",
+        "");
+    // å¯ç”¨å´©æºƒé”™è¯¯æŠ¥å‘Š
     AVAnalytics.enableCrashReport(ctx, true);
-    // ×¢²á×ÓÀà
+    // æ³¨å†Œå­ç±»
     AVObject.registerSubclass(Todo.class);
   }
 
   public static void fetchTodoById(String objectId,GetCallback<AVObject> getCallback) {
     Todo todo = new Todo();
     todo.setObjectId(objectId);
-    // Í¨¹ıFetch»ñÈ¡contentÄÚÈİ
+    // é€šè¿‡Fetchè·å–contentå†…å®¹
     todo.fetchInBackground(getCallback);
   }
 
   public static void createOrUpdateTodo(String objectId, String content, SaveCallback saveCallback) {
     final Todo todo = new Todo();
     if (!TextUtils.isEmpty(objectId)) {
-      // Èç¹û´æÔÚobjectId£¬±£´æ»á±ä³É¸üĞÂ²Ù×÷¡£
+      // å¦‚æœå­˜åœ¨objectIdï¼Œä¿å­˜ä¼šå˜æˆæ›´æ–°æ“ä½œã€‚
       todo.setObjectId(objectId);
     }
     todo.setContent(content);
-    // Òì²½±£´æ
+    // å¼‚æ­¥ä¿å­˜
     todo.saveInBackground(saveCallback);
   }
 
   public static List<Todo> findTodos() {
-    // ²éÑ¯µ±Ç°TodoÁĞ±í
+    // æŸ¥è¯¢å½“å‰Todoåˆ—è¡¨
     AVQuery<Todo> query = AVQuery.getQuery(Todo.class);
-    // °´ÕÕ¸üĞÂÊ±¼ä½µĞòÅÅĞò
+    // æŒ‰ç…§æ›´æ–°æ—¶é—´é™åºæ’åº
     query.orderByDescending("updatedAt");
-    // ×î´ó·µ»Ø1000Ìõ
+    // æœ€å¤§è¿”å›1000æ¡
     query.limit(1000);
     try {
       return query.find();
